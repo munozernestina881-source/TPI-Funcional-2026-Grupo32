@@ -21,3 +21,19 @@
 
     (t
      (list color-actual 'accion-por-defecto))))
+
+
+
+;; ========================================================
+;; FUNCIÓN: timer
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Condicional
+;; IMPACTO: No destructiva
+;; ========================================================
+
+(defun timer (timestamp)
+  (let ((posicion (mod timestamp 216)))
+    (cond
+      ((< posicion 90) 'rojo)
+      ((< posicion 96) 'amarillo)
+      (t 'verde))))
