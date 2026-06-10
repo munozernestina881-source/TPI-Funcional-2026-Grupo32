@@ -72,8 +72,11 @@
         ((> duracionCiclo 150) "El ciclo es demasiado largo. Disminuir la duracion del ciclo")
         (t "El ciclo esta en la duracion optima")))
 
+;; ============================================================
+;; FUNCIÓN: ciclos-por-tiempo
 ;; NATURALEZA: Pura
 ;; ESTRATEGIA: Funcional
+;; IMPACTO: No destructiva
 ;; ============================================================
 
 (defun ciclos-por-tiempo (minutos) ; definimos la funcion + parámetro
