@@ -71,3 +71,13 @@
   (cond ((< duracionCiclo 35) "El ciclo es muy corto. Aumentar la duracion del ciclo")
         ((> duracionCiclo 150) "El ciclo es demasiado largo. Disminuir la duracion del ciclo")
         (t "El ciclo esta en la duracion optima")))
+
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Funcional
+;; ============================================================
+
+(defun ciclos-por-tiempo (minutos) ; definimos la funcion + parámetro
+  "Calcula la cantidad de ciclos completos que ocurren en un tiempo dado en minutos."
+  (let* ((segundos-totales (* minutos 60)) ; variable local - pasar el tiempo a segundos
+         (duracion-ciclo 216)) ; 90s(Rojo) + 6s(Amarillo) + 120s(Verde) ; define constante fija con el tiempo total del ciclo
+    (floor (/ segundos-totales duracion-ciclo)))) ; divide el total de segundos por lo que dura un ciclo - floor redondea hacia abajo
