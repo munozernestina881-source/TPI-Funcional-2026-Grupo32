@@ -107,10 +107,10 @@
 ;; ESTRATEGIA: Secuencial
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun duracion-ciclo (tiempo duracionCiclo)
-  (let ((ciclosTotales (floor (/ tiempo duracionCiclo))))
-    (format t "en ~a segundos se realizan ~a ciclos completos" tiempo ciclosTotales))
-    (recomendacion-ciclo ciclosTotales))
+(defun duracion-ciclo (tiempo cicloEstandar)
+  (let ((ciclosTotales (floor (/ tiempo cicloEstandar))))
+    (format t "en ~a segundos se realizan ~a ciclos completos" tiempo ciclosTotales)
+    (format t "~%Recomendacion: ~a~%" (recomendacion-ciclo ciclosTotales cicloEstandar))))
 
 ;; ========================================================
 ;; FUNCIÓN: recomendacion-ciclo
@@ -118,9 +118,9 @@
 ;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun recomendacion-ciclo (ciclosTotales)
-  (cond ((< duracionCiclo 35) "El ciclo es muy corto. Aumentar la duracion del ciclo")
-        ((> duracionCiclo 150) "El ciclo es demasiado largo. Disminuir la duracion del ciclo")
+(defun recomendacion-ciclo (ciclosTotales cicloEstandar)
+  (cond ((< cicloEstandar 35) "El ciclo es muy corto. Aumentar la duracion del ciclo")
+        ((> cicloEstandar 150) "El ciclo es demasiado largo. Disminuir la duracion del ciclo")
         (t "El ciclo esta en la duracion optima")))
 
 ;; ============================================================
