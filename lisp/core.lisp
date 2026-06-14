@@ -110,7 +110,7 @@
 (defun duracion-ciclo (tiempo cicloEstandar)
   (let ((ciclosTotales (floor (/ tiempo cicloEstandar))))
     (format t "en ~a segundos se realizan ~a ciclos completos" tiempo ciclosTotales)
-    (format t "~%Recomendacion: ~a~%" (recomendacion-ciclo ciclosTotales cicloEstandar))))
+    (format t "~%Recomendacion: ~a~%" (recomendacion-ciclo cicloEstandar))))
 
 ;; ========================================================
 ;; FUNCIÓN: recomendacion-ciclo
@@ -118,7 +118,7 @@
 ;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun recomendacion-ciclo (ciclosTotales cicloEstandar)
+(defun recomendacion-ciclo (cicloEstandar)
   (cond ((< cicloEstandar 35) "El ciclo es muy corto. Aumentar la duracion del ciclo")
         ((> cicloEstandar 150) "El ciclo es demasiado largo. Disminuir la duracion del ciclo")
         (t "El ciclo esta en la duracion optima")))
