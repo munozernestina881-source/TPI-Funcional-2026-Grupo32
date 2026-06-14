@@ -39,17 +39,54 @@
       (t 'verde))))
 
 ;; ========================================================
-;; FUNCIÓN: calcularTiempo
-;; NATURALEZA: Impura
-;; ESTRATEGIA: Codicional
+;; FUNCIÓN: formatoFecha
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Directa
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun calcularTiempo (tiempo color-actual)
-(let ((listaColor (transicion color-actual (timer tiempo))))
-(format t "~%Tiempo ~a: la luz ha cambiado de ~a a ~a" 
-            tiempo 
-            color-actual 
-            (cadr listaColor))))
+(defun formatoFecha (tiempo)
+  (local-time:format-timestring nil (local-time:unix-to-timestamp tiempo)))
+
+;; ========================================================
+;; FUNCIÓN: formatoColor
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Condicional
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun formatoColor (listaColor)
+  (let ((primerColor (car listaColor)) 
+        (segundoColor (cadr listaColor)))
+    (cond 
+      ((and (equal primerColor 'en-verde) (equal segundoColor "cambiar-a-verde-intermitente")) (list 'VERDE 'VERDE-INTERMITENTE))
+      ((and (equal primerColor 'en-verde-intermitente) (equal segundoColor "cambiar-a-amarillo")) (list 'VERDE-INTERMITENTE 'AMARILLO))
+      ((and (equal primerColor 'en-amarillo) (equal segundoColor "cambiar-a-amarillo-intermitente")) (list 'AMARILLO 'AMARILLO-INTERMITENTE))
+      ((and (equal primerColor 'en-amarillo-intermitente) (equal segundoColor "cambiar-a-rojo")) (list 'AMARILLO-INTERMITENTE 'ROJO))
+      ((and (equal primerColor 'en-rojo) (equal segundoColor "cambiar-a-rojo-intermitente")) (list 'ROJO 'ROJO-INTERMITENTE))
+      ((and (equal primerColor 'en-rojo-intermitente) (equal segundoColor "cambiar-a-verde")) (list 'ROJO-INTERMITENTE 'VERDE))
+      (t (list primerColor 'ACCION-POR-DEFECTO)))))
+
+;; ========================================================
+;; FUNCIÓN: calcularTiempo
+;; NATURALEZA: Impura
+;; ESTRATEGIA: Secuencial
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun calcularTiempo (registro stream)
+  (let ((listaColor (formatoColor (transicion (cadr registro) (timer (car registro))))))
+    (format stream "~% ~a - Transición: ~a -> ~a" (formatoFecha (car registro)) (car listaColor) (cadr listaColor))))
+
+;; ========================================================
+;; FUNCIÓN: informe
+;; NATURALEZA: Impura (Crea, abre y modifica un archivo en disco)
+;; ESTRATEGIA: Secuencial / Iterativa (Mapeo de lista)
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun informe (datos) 
+ (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output) 
+   (format stream "Informe de Ejecución del Sistema Semafórico~%") 
+   (format stream "=========================================~%")
+   (mapcar (lambda (registro) (calcularTiempo registro stream)) datos)
+   (format stream "~% --- Fin del Informe ---")))
 
 ;; ========================================================
 ;; FUNCIÓN: duracion-ciclo
@@ -57,9 +94,10 @@
 ;; ESTRATEGIA: Secuencial
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun duracion-ciclo (tiempo)
-  (let ((ciclosTotales (floor (/ tiempo 216))))
-    (format t "en ~a segundos se realizan ~a ciclos completos" tiempo ciclosTotales)))
+(defun duracion-ciclo (tiempo duracionCiclo)
+  (let ((ciclosTotales (floor (/ tiempo duracionCiclo))))
+    (format t "en ~a segundos se realizan ~a ciclos completos" tiempo ciclosTotales))
+    (recomendacion-ciclo ciclosTotales))
 
 ;; ========================================================
 ;; FUNCIÓN: recomendacion-ciclo
@@ -67,7 +105,7 @@
 ;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun recomendacion-ciclo (duracionCiclo)
+(defun recomendacion-ciclo (ciclosTotales)
   (cond ((< duracionCiclo 35) "El ciclo es muy corto. Aumentar la duracion del ciclo")
         ((> duracionCiclo 150) "El ciclo es demasiado largo. Disminuir la duracion del ciclo")
         (t "El ciclo esta en la duracion optima")))
