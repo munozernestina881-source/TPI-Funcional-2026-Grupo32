@@ -27,8 +27,6 @@
 
     (t (list color-actual 'accion-por-defecto))))
 
-
-
 ;; ========================================================
 ;; FUNCIÓN: timer
 ;; NATURALEZA: Pura
@@ -37,11 +35,19 @@
 ;; ========================================================
 
 (defun timer (timestamp)
-  (let ((posicion (mod timestamp 216)))
+  (let ((posicion (mod timestamp 225)))
     (cond
       ((< posicion 90) 'rojo)
-      ((< posicion 96) 'amarillo)
-      (t 'verde))))
+
+      ((< posicion 93) 'rojo-intermitente)
+
+      ((< posicion 213) 'verde)
+
+      ((< posicion 216) 'verde-intermitente)
+
+      ((< posicion 222) 'amarillo)
+
+      (t 'amarillo-intermitente))))
 
 ;; ========================================================
 ;; FUNCIÓN: formatoFecha
