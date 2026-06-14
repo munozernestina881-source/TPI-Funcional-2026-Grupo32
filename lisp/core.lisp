@@ -61,22 +61,31 @@
       (local-time:format-timestring nil segundos))))
 
 ;; ========================================================
+;; FUNCIÓN: cambiarNombre
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Condicional
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun cambiarNombre (color)
+  (cond ((or (equal color 'en-verde) (equal color "cambiar-a-verde")) 'VERDE)
+        ((or (equal color 'en-verde-intermitente) (equal color "cambiar-a-verde-intermitente")) 'VERDE-INTERMITENTE)
+        ((or (equal color 'en-amarillo) (equal color "cambiar-a-amarillo")) 'AMARILLO)
+        ((or (equal color 'en-amarillo-intermitente) (equal color "cambiar-a-amarillo-intermitente")) 'AMARILLO-INTERMITENTE)
+        ((or (equal color 'en-rojo) (equal color "cambiar-a-rojo")) 'ROJO)
+        ((or (equal color 'en-rojo-intermitente) (equal color "cambiar-a-rojo-intermitente")) 'ROJO-INTERMITENTE)
+        (t 'ACCION-POR-DEFECTO)))
+
+;; ========================================================
 ;; FUNCIÓN: formatoColor
 ;; NATURALEZA: Pura
 ;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
 (defun formatoColor (listaColor)
-  (let ((primerColor (car listaColor)) 
-        (segundoColor (cadr listaColor)))
-    (cond 
-      ((and (equal primerColor 'en-verde) (equal segundoColor "cambiar-a-verde-intermitente")) (list 'VERDE 'VERDE-INTERMITENTE))
-      ((and (equal primerColor 'en-verde-intermitente) (equal segundoColor "cambiar-a-amarillo")) (list 'VERDE-INTERMITENTE 'AMARILLO))
-      ((and (equal primerColor 'en-amarillo) (equal segundoColor "cambiar-a-amarillo-intermitente")) (list 'AMARILLO 'AMARILLO-INTERMITENTE))
-      ((and (equal primerColor 'en-amarillo-intermitente) (equal segundoColor "cambiar-a-rojo")) (list 'AMARILLO-INTERMITENTE 'ROJO))
-      ((and (equal primerColor 'en-rojo) (equal segundoColor "cambiar-a-rojo-intermitente")) (list 'ROJO 'ROJO-INTERMITENTE))
-      ((and (equal primerColor 'en-rojo-intermitente) (equal segundoColor "cambiar-a-verde")) (list 'ROJO-INTERMITENTE 'VERDE))
-      (t (list primerColor 'ACCION-POR-DEFECTO)))))
+  (let ((primerColor (cambiarNombre (car listaColor)))
+       (segundoColor (cambiarNombre (cadr listaColor))))
+    (if (eq segundoColor 'ACCION-POR-DEFECTO) (list primerColor primerColor)
+        (list primerColor segundoColor))))
 
 ;; ========================================================
 ;; FUNCIÓN: calcularTiempo
