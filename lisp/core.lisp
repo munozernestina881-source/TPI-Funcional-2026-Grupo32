@@ -141,9 +141,8 @@
 
 (defun ciclos-por-tiempo (minutos) 
   "Calcula la cantidad de ciclos completos que ocurren en un tiempo dado en minutos."
-  (let* ((segundos-totales (* minutos 60)) 
-         (duracion-ciclo 216)) ; 90s(Rojo) + 6s(Amarillo) + 120s(Verde) 
-    (floor (/ segundos-totales duracion-ciclo)))) 
+  (let ((segundos-totales (* minutos 60))) 
+    (floor (/ segundos-totales 225))))
 
 ;; =======================================================
 ;; FUNCIÓN: informe-por-hora
