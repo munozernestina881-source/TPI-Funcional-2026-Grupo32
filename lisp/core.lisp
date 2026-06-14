@@ -56,7 +56,9 @@
 ;; IMPACTO: No destructiva
 ;; ========================================================
 (defun formatoFecha (tiempo)
-  (local-time:format-timestring nil (local-time:unix-to-timestamp tiempo)))
+  (let ((fecha-actual (local-time:now)))
+    (let ((segundos (local-time:timestamp+ fecha-actual tiempo :sec)))
+      (local-time:format-timestring nil segundos))))
 
 ;; ========================================================
 ;; FUNCIÓN: formatoColor
