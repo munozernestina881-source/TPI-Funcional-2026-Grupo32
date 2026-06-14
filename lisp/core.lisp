@@ -1,26 +1,31 @@
 ;; ========================================================
 ;; FUNCIÓN: transicion
 ;; NATURALEZA: Pura
-;; ESTRATEGIA: Condicional (case)
+;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
 
 (defun transicion (color-actual cambiar-a)
   (cond
-    ((and (eq color-actual 'en-rojo)
-          (eq cambiar-a 'verde))
-     (list 'en-rojo "cambiar-a-verde"))
+    ((and (eq color-actual 'en-rojo) (eq cambiar-a 'rojo-intermitente))
+     (list 'en-rojo "cambiar-a-rojo-intermitente"))
 
-    ((and (eq color-actual 'en-verde)
-          (eq cambiar-a 'amarillo))
-     (list 'en-verde "cambiar-a-amarillo"))
+    ((and (eq color-actual 'rojo-intermitente) (eq cambiar-a 'verde))
+     (list 'rojo-intermitente "cambiar-a-verde"))
 
-    ((and (eq color-actual 'en-amarillo)
-          (eq cambiar-a 'rojo))
-     (list 'en-amarillo "cambiar-a-rojo"))
+    ((and (eq color-actual 'en-verde) (eq cambiar-a 'verde-intermitente))
+     (list 'en-verde "cambiar-a-verde-intermitente"))
 
-    (t
-     (list color-actual 'accion-por-defecto))))
+    ((and (eq color-actual 'verde-intermitente) (eq cambiar-a 'amarillo))
+     (list 'verde-intermitente "cambiar-a-amarillo"))
+
+    ((and (eq color-actual 'en-amarillo) (eq cambiar-a 'amarillo-intermitente))
+     (list 'en-amarillo "cambiar-a-amarillo-intermitente"))
+
+    ((and (eq color-actual 'amarillo-intermitente) (eq cambiar-a 'rojo))
+     (list 'amarillo-intermitente "cambiar-a-rojo"))
+
+    (t (list color-actual 'accion-por-defecto))))
 
 
 
