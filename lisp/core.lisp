@@ -1,3 +1,4 @@
+(ql:quickload "local-time")
 ;; ========================================================
 ;; FUNCIÓN: transicion
 ;; NATURALEZA: Pura
