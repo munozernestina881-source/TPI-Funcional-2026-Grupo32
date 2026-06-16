@@ -4,9 +4,7 @@ TP INTEGRADOR 2026
 # Sistema de Semáforos Inteligentes y Análisis Comparativo de Paradigmas
 
 ## Equipo de Trabajo
-* **Gastón Gaun** - Licenciatura en Sistemas 
-* **[Nombre del Integrante 2]** - [Carrera / Rol]
-* **[Nombre del Integrante 3]** - [Carrera / Rol]
+
 
 ---
 
