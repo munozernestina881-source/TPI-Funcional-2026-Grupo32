@@ -29,4 +29,4 @@ TP INTEGRADOR 2026
 ## Demo Técnica y Defensa
 [cite_start]En el siguiente enlace se encuentra la demostración de la correcta ejecución de los entornos de software y el compendio de nuestras conclusiones críticas[cite: 125]:
 
-* **▶️ [Enlace al video de YouTube de la Demo Técnica]**
+* **▶️ [[Enlace al video de YouTube de la Demo Técnica](https://www.youtube.com/watch?v=1e51o4D7h_g)]**
