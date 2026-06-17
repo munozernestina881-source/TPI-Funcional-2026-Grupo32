@@ -2,8 +2,13 @@
 TP INTEGRADOR 2026
 
 ---
+<img width="3936" height="1088" alt="portada" src="https://github.com/user-attachments/assets/7f3c9071-21f1-410c-848c-67b47e310a7f" />
 
 # Sistema de Semáforos Inteligentes y Análisis Comparativo de Paradigmas
+
+**🎓 Facultad de Ciencias Exactas y Naturales y Agrimensura**
+
+**💻 Paradigmas y Lenguajes de Programación en Lenguaje LISP**
 
 ## Equipo de Trabajo
 * **Gauna Gastón Leonel** 
