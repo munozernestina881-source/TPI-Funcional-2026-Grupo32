@@ -51,23 +51,23 @@
       (t 'amarillo-intermitente))))
 
 ;; ========================================================
-;; FUNCIÓN: formatoFecha
+;; FUNCIÓN: formato-fecha
 ;; NATURALEZA: Pura
 ;; ESTRATEGIA: Directa
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun formatoFecha (tiempo)
+(defun formato-fecha (tiempo)
   (let ((fecha-actual (local-time:now)))
     (let ((segundos (local-time:timestamp+ fecha-actual tiempo :sec)))
       (local-time:format-timestring nil segundos))))
 
 ;; ========================================================
-;; FUNCIÓN: cambiarNombre
+;; FUNCIÓN: cambiar-nombre
 ;; NATURALEZA: Pura
 ;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun cambiarNombre (color)
+(defun cambiar-nombre (color)
   (cond ((or (equal color 'en-verde) (equal color "cambiar-a-verde")) 'VERDE)
         ((or (equal color 'en-verde-intermitente) (equal color "cambiar-a-verde-intermitente")) 'VERDE-INTERMITENTE)
         ((or (equal color 'en-amarillo) (equal color "cambiar-a-amarillo")) 'AMARILLO)
@@ -77,26 +77,66 @@
         (t 'ACCION-POR-DEFECTO)))
 
 ;; ========================================================
-;; FUNCIÓN: formatoColor
+;; FUNCIÓN: formato-color
 ;; NATURALEZA: Pura
 ;; ESTRATEGIA: Condicional
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun formatoColor (listaColor)
-  (let ((primerColor (cambiarNombre (car listaColor)))
-       (segundoColor (cambiarNombre (cadr listaColor))))
-    (if (eq segundoColor 'ACCION-POR-DEFECTO) (list primerColor primerColor)
-        (list primerColor segundoColor))))
+(defun formato-color (lista-color)
+  (let ((primer-color (cambiar-nombre (car lista-color)))
+       (segundo-color (cambiar-nombre (cadr lista-color))))
+    (if (eq segundo-color 'ACCION-POR-DEFECTO) (list primer-color primer-color)
+        (list primer-color segundo-color))))
 
 ;; ========================================================
-;; FUNCIÓN: calcularTiempo
+;; FUNCIÓN: calcular-tiempo
+;; NATURALEZA: Impura;; ========================================================
+;; FUNCIÓN: formato-fecha
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Directa
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun formato-fecha (tiempo)
+  (let ((fecha-actual (local-time:now)))
+    (let ((segundos (local-time:timestamp+ fecha-actual tiempo :sec)))
+      (local-time:format-timestring nil segundos))))
+
+;; ========================================================
+;; FUNCIÓN: cambiar-nombre
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Condicional
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun cambiar-nombre (color)
+  (cond ((or (equal color 'en-verde) (equal color "cambiar-a-verde")) 'VERDE)
+        ((or (equal color 'en-verde-intermitente) (equal color "cambiar-a-verde-intermitente")) 'VERDE-INTERMITENTE)
+        ((or (equal color 'en-amarillo) (equal color "cambiar-a-amarillo")) 'AMARILLO)
+        ((or (equal color 'en-amarillo-intermitente) (equal color "cambiar-a-amarillo-intermitente")) 'AMARILLO-INTERMITENTE)
+        ((or (equal color 'en-rojo) (equal color "cambiar-a-rojo")) 'ROJO)
+        ((or (equal color 'en-rojo-intermitente) (equal color "cambiar-a-rojo-intermitente")) 'ROJO-INTERMITENTE)
+        (t 'ACCION-POR-DEFECTO)))
+
+;; ========================================================
+;; FUNCIÓN: formato-color
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Condicional
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun formato-color (lista-color)
+  (let ((primer-color (cambiar-nombre (car lista-color)))
+       (segundo-color (cambiar-nombre (cadr lista-color))))
+    (if (eq segundo-color 'ACCION-POR-DEFECTO) (list primer-color primer-color)
+        (list primer-color segundo-color))))
+
+;; ========================================================
+;; FUNCIÓN: calcular-tiempo
 ;; NATURALEZA: Impura
 ;; ESTRATEGIA: Secuencial
 ;; IMPACTO: No destructiva
 ;; ========================================================
-(defun calcularTiempo (registro stream)
-  (let ((listaColor (formatoColor (transicion (cadr registro) (timer (car registro))))))
-    (format stream "~% ~a - Transición: ~a -> ~a" (formatoFecha (car registro)) (car listaColor) (cadr listaColor))))
+(defun calcular-tiempo (registro stream)
+  (let ((lista-color (formato-color (transicion (cadr registro) (timer (car registro))))))
+    (format stream "~% ~a - Transición: ~a -> ~a" (formato-fecha (car registro)) (car listaColor) (cadr listaColor))))
 
 ;; ========================================================
 ;; FUNCIÓN: informe
@@ -108,7 +148,26 @@
  (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output) 
    (format stream "Informe de Ejecución del Sistema Semafórico~%") 
    (format stream "=========================================~%")
-   (mapcar (lambda (registro) (calcularTiempo registro stream)) datos)
+   (mapcar (lambda (registro) (calcular-tiempo registro stream)) datos)
+   (format stream "~% --- Fin del Informe ---")))
+;; ESTRATEGIA: Secuencial
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun calcular-tiempo (registro stream)
+  (let ((lista-color (formato-color (transicion (cadr registro) (timer (car registro))))))
+    (format stream "~% ~a - Transición: ~a -> ~a" (formato-fecha (car registro)) (car lista-color) (cadr lista-color))))
+
+;; ========================================================
+;; FUNCIÓN: informe
+;; NATURALEZA: Impura (Crea, abre y modifica un archivo en disco)
+;; ESTRATEGIA: Secuencial / Iterativa (Mapeo de lista)
+;; IMPACTO: No destructiva
+;; ========================================================
+(defun informe (datos) 
+ (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output) 
+   (format stream "Informe de Ejecución del Sistema Semafórico~%") 
+   (format stream "=========================================~%")
+   (mapcar (lambda (registro) (calcular-tiempo registro stream)) datos)
    (format stream "~% --- Fin del Informe ---")))
 
 ;; ========================================================
